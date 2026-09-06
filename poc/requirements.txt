@@ -1,0 +1,22 @@
+# POC dependencies only. NOT the platform's dependencies -
+# these never go in pyproject.toml.
+#
+#   python3 -m venv .venv-poc && source .venv-poc/bin/activate
+#   pip install -r poc/requirements.txt
+
+# --- poc1 voice
+sounddevice>=0.4.6
+soxr>=0.3.7
+numpy>=1.24
+faster-whisper>=1.0.0
+piper-tts>=1.2.0
+
+# --- poc2 memory
+# (requests only)
+
+# --- poc3 lookup
+beautifulsoup4>=4.12
+ddgs>=9.0.0
+
+# --- shared
+requests>=2.31

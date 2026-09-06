@@ -1,0 +1,20 @@
+__pycache__/
+*.egg-info/
+*.pyc
+dist/
+build/
+
+# venvs
+.venv/
+.venv-poc/
+
+# instance config - persona and credentials live here
+config/instance.yaml
+.env
+
+# poc scratch output
+poc/memory.md
+poc/memory.md.*
+poc/facts.md
+poc/kept_voices.txt
+poc/screen_raw.txt

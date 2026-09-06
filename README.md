@@ -1,43 +1,62 @@
 # fendlera
 
-Fendlera is a harness for building capable agents that run entirely on
-hardware you own. Models are pluggable, the tool layer is yours to extend,
-and it runs headless — drive it from a script, a service, or whatever
-interface you build on top.
+A headless harness for building capable offline agents.
 
-## Why
+Pluggable models, an extensible tool layer, and a memory layer that lives in
+plain files. Runs on hardware you own. No cloud dependency, and nothing breaks
+when the internet does.
 
-Most agent frameworks assume a cloud endpoint and a chat window. That rules
-them out anywhere inference can't leave the building: air-gapped networks,
-sites with no reliable link, and any environment where sending context to a
-third party isn't a decision you're allowed to make.
+**Status: early development.** Name reserved, nothing usable yet.
 
-Fendlera assumes the opposite. Local inference, local memory, local tools.
+## What this is
 
-## Design
+Fendlera is the platform: runtime, tool registry, memory layer, sandbox
+mechanism. It is not an assistant — it is the thing you build one with.
 
-**The model is the swappable part.** Backends sit behind an interface, so
-today's model isn't a commitment. The framework doesn't care which one you
-run.
+An instance is configured, not forked:
 
-**The memory layer is the product.** What gets remembered, what gets loaded
-into context, and how conflicts between them resolve — that's where the
-work is, and it's what survives a model upgrade.
+> Fendlera reads its persona and instance configuration from
+> `/config/instance.yaml`, mounted at runtime. It ships a default persona and
+> starts successfully with no config present.
 
-**Tools are named and explicit.** Capabilities are registered rather than
-discovered. Adding one is a deliberate act, which keeps the surface area
-something you can reason about.
+That contract is the boundary between this repo and any deployment of it.
 
-**Headless by default.** No GUI to boot, nothing to keep open. Compose it
-into whatever you're already running.
+## Design constraints
 
-## Status
+These are decided, not open questions.
 
-Early. Interfaces will change.
+**Named tools only, no shell.** Every tool is a fixed command with no
+user-controlled arguments and structured output. "Is `rm -rf` safe?" is a
+question that only exists if there is a shell; with named tools it is
+unrepresentable.
 
-## The name
+**Fetching is quarantined.** Retrieved pages are attacker-controlled input.
+Fetching runs in a process with no tools, no memory and no filesystem, so a
+hostile page captures something that can only return a string.
 
-*Fendlera rupicola* is a freely branching shrub that grows out of dry rock
-in the mountains of the American south-west. No rich soil, no shelter — it
-puts out new growth from bare stone, and keeps its seed capsules long after
-everything else has dropped.
+**Default-deny egress.** Two networks: the agent on an internal network with no
+gateway, and a proxy container with an allowlist.
+
+**Ambient mode has no write tools.** System-initiated work over untrusted input
+(logs, feeds, video) observes and notifies. It does not act.
+
+**No LLM as a security boundary.** Guardrail models are defeated routinely; they
+belong alongside deterministic controls, never instead of them.
+
+## Layout
+
+```
+fendlera/
+  pyproject.toml
+  src/fendlera/
+    config.py          loads persona from /config/instance.yaml
+    runtime.py         the tool loop
+    memory/
+    tools/             one module per named tool
+    connectors/
+  poc/                 throwaway, excluded from the published package
+```
+
+## Licence
+
+MIT.
