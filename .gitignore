@@ -1,20 +1,22 @@
+# environments
+.venv*/
 __pycache__/
-*.egg-info/
 *.pyc
-dist/
-build/
 
-# venvs
-.venv/
-.venv-poc/
+# models - large, and downloadable
+*.onnx
+*.onnx.json
 
-# instance config - persona and credentials live here
-config/instance.yaml
-.env
-
-# poc scratch output
+# runtime state - real conversations and screen contents. Never commit.
+memory/
+*.jsonl
 poc/memory.md
-poc/memory.md.*
 poc/facts.md
-poc/kept_voices.txt
-poc/screen_raw.txt
+
+# benchmark captures are screenshots of a real screen
+bench/screenbench/
+evidence/
+
+# local
+.env
+*.tar.gz

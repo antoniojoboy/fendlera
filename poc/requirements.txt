@@ -1,22 +1,30 @@
-# POC dependencies only. NOT the platform's dependencies -
-# these never go in pyproject.toml.
+# POC dependencies only - NOT the platform's. Never copy these into pyproject.toml.
 #
 #   python3 -m venv .venv-poc && source .venv-poc/bin/activate
 #   pip install -r poc/requirements.txt
+#
+# System packages:
+#   sudo apt install alsa-utils tesseract-ocr wmctrl x11-utils xdotool
+#
+# Voice model (lands in ~/.local/share/piper, which env.sh searches):
+#   python -m piper.download_voices en_GB-jenny_dioco-medium
 
-# --- poc1 voice
+# --- voice (poc1, poc4, poc5)
 sounddevice>=0.4.6
 soxr>=0.3.7
 numpy>=1.24
 faster-whisper>=1.0.0
 piper-tts>=1.2.0
+pysilero-vad>=2.0.0
 
-# --- poc2 memory
-# (requests only)
-
-# --- poc3 lookup
+# --- lookup / research (poc3, poc5, agent)
+requests>=2.31
 beautifulsoup4>=4.12
 ddgs>=9.0.0
 
-# --- shared
-requests>=2.31
+# --- screen (poc5, agent, bench)
+mss
+pillow
+
+# --- buttons (poc5)
+evdev

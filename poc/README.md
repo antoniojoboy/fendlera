@@ -124,6 +124,51 @@ widens with every turn.
 
 **Not this week:** vector database, embeddings, schema design.
 
+## 4 — Hands-free conversation · 4–5 hrs
+
+```bash
+pip install pysilero-vad
+python poc4_conversation.py --tune     # see what Whisper hears for the name
+python poc4_conversation.py
+```
+
+**No wake-word model.** Everything is transcribed continuously; the
+conversation opens on a deterministic name match in the text. Affordable only
+because STT runs in ~0.02s on this GPU — that's the constraint wake-word models
+exist to work around, and it doesn't apply here.
+
+Saying the name opens the window; after that, no name needed. Silence for
+`CONVERSATION_WINDOW` seconds (default 25) closes it.
+
+In IDLE everything is transcribed but nothing is sent to the model, logged or
+remembered unless the name appears. Set `LOG_IDLE=1` to keep ambient
+transcripts — off by default, and think before turning it on.
+
+Run `--tune` first. Whisper renders "Desiree" as desiray / desree / daisy ray
+and worse; add what you actually see to `NAME_VARIANTS` rather than lowering
+`NAME_RATIO`, which opens the gate on everything.
+
+- **PASS** — all six bars in the module docstring.
+- **FAIL** — self-triggering, or the window model turns out to be wrong in
+  practice.
+
+Three stores, because they have opposite requirements:
+
+| Store | Loaded | Shape |
+|---|---|---|
+| `memory/facts.md` | every turn | superseding, small |
+| `memory/log/DATE.md` | never | append-only, both speakers |
+| `memory/decisions/` | keyword match | ADRs, immutable |
+
+The log keeps the assistant's turns — that's where architectural reasoning
+lives. But it isn't resident, so it can't poison recall the way POC 2 did.
+
+**Tunable:** `WAKE_THRESHOLD` (0.5), `CONVERSATION_WINDOW` (25s), `HANG` (0.8s
+of silence ends a turn). Expect to tune `HANG` first — too low cuts you off
+mid-sentence, too high adds latency to every turn.
+
+**Not this week:** barge-in, echo cancellation, multi-speaker, speaker ID.
+
 ## 3 — Lookup · 1–2 hrs
 
 ```bash
@@ -157,6 +202,12 @@ anything with write access, not even as a test.
 | 2 | Facts recalled, write path fixed | ≥ 18/20 | | |
 | 3 | Answers correct | ≥ 9/10 | | |
 | 3 | Invented specifics | 0 | | |
+| 4 | Name opens conversation | ≥ 8/10 | | |
+| 4 | False opens in 30 min | ≤ 1 | | |
+| 4 | Follow-up turns without the name | ≥ 5 | | |
+| 4 | Self-triggers (hears herself) | 0 | | |
+| 4 | Cut off mid-sentence in 10 turns | 0 | | |
+| 4 | Median first audio | < 2.0s | | |
 
 Bars were set before building. Don't move them after seeing results.
 
