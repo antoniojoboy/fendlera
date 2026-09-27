@@ -65,6 +65,11 @@ OLLAMA_URL   = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.1:8b")
 MEM          = os.environ.get("MEM_FILE", "memory.md")
 FACTS_FILE   = os.environ.get("FACTS_FILE", "facts.md")
+# Append-only log of every statement and every supersession (ADR-0044).
+# Never loaded wholesale; grepped only when facts cannot answer.
+LOG_FILE     = os.environ.get("FACTS_LOG_FILE",
+                              os.path.join(os.path.dirname(os.path.abspath(FACTS_FILE)),
+                                           "facts_log.md"))
 
 # temperature 0 so a re-run is comparable. Without this the default is ~0.8 and
 # the same file scored 17, 17 and 19 on three consecutive runs - wide enough to
@@ -87,9 +92,20 @@ EXTRACT_SYSTEM = (
     '  {"action":"add","key":"<short key>","value":"<the fact>"}\n'
     '  {"action":"update","key":"<existing key>","value":"<the new fact>"}\n'
     '  {"action":"skip"}\n'
-    "Use update when the statement changes a fact already in the store - reuse "
-    "that fact's exact key. Use skip for questions, chit-chat, or anything not "
-    "worth remembering. Keys are lowercase, two or three words, no punctuation."
+    "ALWAYS add a statement about any of these, even if it seems minor: where "
+    "the user lives, works or studies; their job; people in their life; their "
+    "projects, machines, devices and tools; their plans, budgets and goals; "
+    "their stated preferences and habits.\n"
+    "Keep the whole fact in the value, not a fragment - 'Northmoor Freight, "
+    "logistics analyst', not just 'Northmoor Freight'. Include what kind of "
+    "thing it is when that is stated ('suburb', 'street').\n"
+    "Use update ONLY when the new statement changes the SAME fact already in "
+    "the store - reuse that key exactly. A statement ABOUT an existing fact "
+    "(an extra detail, a nickname, a mishearing) is a new fact with its own "
+    "new key, not an update.\n"
+    "Use skip ONLY for chit-chat that says nothing about the user. When in "
+    "doubt, add: a wrong add costs one line, a wrong skip loses the fact.\n"
+    "Keys are lowercase, two to four words, no punctuation."
 )
 
 # ---------------------------------------------------------------------------
@@ -223,49 +239,166 @@ def facts_block() -> str:
     return "\n".join(f"- {k}: {v}" for k, v in facts.items())
 
 
+# Deterministic, before any model sees the statement. A model deciding what
+# is "worth remembering" was the failure (POC 2 re-run, 28 Sep 2026): Q4 and
+# q8 each skipped a different set of real facts. Rules decide the obvious
+# cases; the model never gets a vote on them.
+_QUESTION = re.compile(
+    r"^\s*(what|what's|whats|who|whom|whose|when|where|why|how|which|is|are|"
+    r"am|was|were|do|does|did|can|could|would|should|will|shall|may|might|"
+    r"have|has|had)\b", re.I)
+_REQUEST = re.compile(
+    r"^\s*(please\s+)?(tell|explain|describe|show|give|list|find|search|"
+    r"look|help|write|make|let's|lets)\b", re.I)
+_REMEMBER = re.compile(
+    r"^\s*(please\s+)?(remember|note|don't forget|dont forget|keep in mind)"
+    r"(\s+that)?[\s,:]*", re.I)
+_PREVIOUSLY = re.compile(r"\s*\(previously .*\)\s*$")
+
+
+def is_question_or_request(text: str) -> bool:
+    t = text.strip()
+    return t.endswith("?") or bool(_QUESTION.match(t)) or bool(_REQUEST.match(t))
+
+
+def log_line(kind: str, text: str):
+    """Append-only. Every statement, every supersession. Never rewritten."""
+    stamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{stamp}] {kind}: {text.strip()}\n")
+
+
+def _slug_key(text: str, facts: "dict[str, str]") -> str:
+    """Fallback key for a forced remember the model would not format."""
+    n = 1
+    while f"note {n}" in facts:
+        n += 1
+    return f"note {n}"
+
+
+def _apply(key: str, value: str, action: str, verbose: bool):
+    """
+    Write one fact. If the key already holds a different value this is a
+    supersession, whatever the model called it: the new line carries
+    '(previously <old>)' and the change is appended to the log (ADR-0044).
+    Only one level of 'previously' is kept inline; the log holds the rest.
+    """
+    facts = read_facts()
+    was = facts.get(key)
+    if was is not None and _PREVIOUSLY.sub("", was) != value:
+        old = _PREVIOUSLY.sub("", was)
+        facts[key] = f"{value} (previously {old})"
+        log_line("superseded", f"{key}: {old} -> {value}")
+        if verbose:
+            print(f"        (supersede) {key}: {old}  ->  {value}")
+    else:
+        facts[key] = value
+        if verbose:
+            print(f"        ({action}) {key}: {value}")
+    write_facts(facts)
+
+
 def extract(user_text: str, verbose: bool = True):
     """
-    The second pass. Decides what is durable and applies ONE operation.
-    Superseding happens here, once - not on every read.
+    The second pass. Order matters:
+      1. log the statement verbatim - the safety net for anything missed
+      2. questions and requests skip by rule, no model call
+      3. an explicit 'remember ...' is always stored, by rule
+      4. everything else goes to the model, which picks key and value
     """
+    log_line("user", user_text)
+
+    if is_question_or_request(user_text):
+        if verbose:
+            print("        (skip, rule: question/request)")
+        return {"action": "skip", "by": "rule"}
+
+    forced = bool(_REMEMBER.match(user_text))
+    statement = _REMEMBER.sub("", user_text, count=1) if forced else user_text
+
     prompt = (f"CURRENT FACTS\n{facts_block()}\n\n"
-              f"NEW STATEMENT\n{user_text}")
+              f"NEW STATEMENT\n{statement}")
+    if forced:
+        prompt += "\n\nThe user explicitly asked for this to be remembered. Do not skip."
     raw = chat(EXTRACT_SYSTEM, prompt, timeout=120)
     raw = re.sub(r"```(?:json)?|```", "", raw).strip()
 
     try:
         op = json.loads(raw[raw.index("{"):raw.rindex("}") + 1])
     except Exception:
-        if verbose:
-            print(f"        (unparseable: {raw[:70]})")
-        return None
+        op = {"action": "unparseable"}
 
     action = op.get("action")
-    if action not in ("add", "update"):
-        if verbose:
-            print("        (skip)")
+    key = str(op.get("key", "")).strip().lower()
+    value = str(op.get("value", "")).strip()
+
+    if action in ("add", "update") and key and value:
+        _apply(key, value, action, verbose)
         return op
 
-    key, value = str(op.get("key", "")).strip(), str(op.get("value", "")).strip()
-    if not key or not value:
-        return op
-
-    facts = read_facts()
-    was = facts.get(key)
-    facts[key] = value
-    write_facts(facts)
+    if forced:
+        # The model skipped or garbled an explicit request. His word wins.
+        key = _slug_key(statement, read_facts())
+        _apply(key, statement.strip(), "add, rule: remember", verbose)
+        return {"action": "add", "key": key, "value": statement, "by": "rule"}
 
     if verbose:
-        if was is not None and was != value:
-            print(f"        (supersede) {key}: {was}  ->  {value}")
-        else:
-            print(f"        ({action}) {key}: {value}")
+        print(f"        ({action}{', unparseable: ' + raw[:60] if action == 'unparseable' else ''})")
     return op
 
 
-def xask(user_text: str) -> str:
-    """Answer from the extracted facts, not the transcript."""
+_STOP = {"what", "which", "where", "when", "does", "have", "that", "this",
+         "with", "from", "your", "mine", "about", "there", "their", "would",
+         "should", "could", "called", "name"}
+_DONT_KNOW = re.compile(r"\b(i do not know|i don't know|i dont know|not in (the )?memory)\b", re.I)
+
+
+def xask_facts(user_text: str) -> str:
+    """Answer from the extracted facts only. Measures the extractor."""
     return chat(SYSTEM + "\n\n--- MEMORY FILE ---\n" + facts_block(), user_text)
+
+
+def search_log(question: str, limit: int = 5) -> str:
+    """
+    Rung one of the retrieval ladder (ADR-0030): word overlap, no index.
+    Only user statements are searched - what he said, verbatim.
+    """
+    if not os.path.exists(LOG_FILE):
+        return ""
+    words = {w for w in re.findall(r"[a-z0-9-]+", question.lower())
+             if len(w) > 3 and w not in _STOP}
+    if not words:
+        return ""
+    scored = []
+    for line in open(LOG_FILE, encoding="utf-8"):
+        if "] user: " not in line:
+            continue
+        body = line.split("] user: ", 1)[1].strip()
+        if is_question_or_request(body):
+            continue
+        hits = sum(1 for w in words if w in body.lower())
+        if hits:
+            scored.append((hits, body))
+    scored.sort(key=lambda x: -x[0])
+    return "\n".join(f"- {b}" for _h, b in scored[:limit])
+
+
+def xask(user_text: str) -> str:
+    """
+    Facts first. If they cannot answer, grep the log and ask again with what
+    he actually said. A missed extraction becomes a retrieval problem rather
+    than a lost fact.
+    """
+    a = xask_facts(user_text)
+    if not _DONT_KNOW.search(a):
+        return a
+    excerpts = search_log(user_text)
+    if not excerpts:
+        return a
+    context = (SYSTEM + "\n\n--- MEMORY FILE ---\n" + facts_block() +
+               "\n\n--- LOG EXCERPTS (things the user said, verbatim) ---\n" +
+               excerpts)
+    return chat(context, user_text)
 
 
 # ---------------------------------------------------------------- modes
@@ -289,6 +422,11 @@ def cmd_seed():
 
 
 def cmd_xseed():
+    # Starts clean. Before 28 Sep 2026 xseed added to whatever facts.md held,
+    # so a rerun inherited the previous run's mistakes.
+    for p in (FACTS_FILE, LOG_FILE):
+        if os.path.exists(p):
+            os.remove(p)
     _seeder(lambda t: extract(t), "extraction")
     n = len(read_facts())
     print(f"\ndone. {n} facts -> {FACTS_FILE}")
@@ -324,7 +462,34 @@ def cmd_quiz():
 
 
 def cmd_xquiz():
-    _quiz(xask, f"{FACTS_FILE} ({len(read_facts())} facts)")
+    """
+    Two scores, deliberately. Facts-only measures the extractor. With-fallback
+    measures the whole design. Reporting only the second would let the log
+    hide a bad extractor.
+    """
+    print(f"quizzing against {FACTS_FILE} ({len(read_facts())} facts) "
+          f"+ log fallback {LOG_FILE}\n")
+    facts_hits = both_hits = 0
+    rescued = []
+    for i, (q, key) in enumerate(QUESTIONS, 1):
+        a1 = xask_facts(q)
+        ok1 = key.lower() in a1.lower()
+        a2 = a1
+        if not ok1:
+            a2 = xask(q)
+        ok2 = key.lower() in a2.lower()
+        facts_hits += ok1
+        both_hits += ok2
+        tag = "PASS" if ok1 else ("LOG " if ok2 else "FAIL")
+        print(f"  [{i:>2}] {tag}  {q}")
+        print(f"        -> {a2[:110]}")
+        if ok2 and not ok1:
+            rescued.append(i)
+
+    print(f"\n  FACTS ONLY    : {facts_hits}/{len(QUESTIONS)}   (the extractor)")
+    print(f"  WITH FALLBACK : {both_hits}/{len(QUESTIONS)}   (the design)   bar is 18")
+    if rescued:
+        print(f"  rescued by the log: {rescued}")
 
 
 def _contradict(answerer, writer, label):
@@ -372,6 +537,8 @@ def cmd_xstats():
         return
     n = os.path.getsize(FACTS_FILE)
     print(f"{FACTS_FILE}: {n} bytes, {len(facts)} facts, ~{n // 4} tokens")
+    if os.path.exists(LOG_FILE):
+        print(f"{LOG_FILE}: {os.path.getsize(LOG_FILE)} bytes, never loaded wholesale")
     print("compare against the naive file. the gap is what extraction bought "
           "you, and it widens with every turn.")
 

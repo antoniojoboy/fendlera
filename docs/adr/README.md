@@ -66,3 +66,4 @@ whole project.
 | 0053 | 2026-09-14 | [Per-utterance headset profile switching](0053-per-utterance-headset-profile-switching.md) | Experimental, off (MODE_SWITCH=0) |
 | 0054 | 2026-09-28 | [Perception is ingress; named tools govern egress](0054-perception-is-ingress-named-tools-govern-egress.md) | Accepted |
 | 0055 | 2026-09-28 | [poc5_desiree is the platform foundation](0055-poc5-desiree-is-the-platform-foundation.md) | Accepted. Supersedes 0027 |
+| 0056 | 2026-09-28 | [Every action reports an outcome](0056-every-action-reports-an-outcome.md) | Accepted |
