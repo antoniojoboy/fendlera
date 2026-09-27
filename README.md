@@ -26,6 +26,8 @@ mount/
 On first run an empty `profile/` is seeded with the default persona, and never
 touched again. One writable directory, and it does not contain her identity.
 
+Start with [docs/overview.md](docs/overview.md) for how Fendlera, Subtend and Subcortical fit together.
+
 That contract is the boundary between this repo and any deployment of it.
 
 ## Design constraints
