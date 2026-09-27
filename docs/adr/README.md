@@ -67,3 +67,4 @@ whole project.
 | 0054 | 2026-09-28 | [Perception is ingress; named tools govern egress](0054-perception-is-ingress-named-tools-govern-egress.md) | Accepted |
 | 0055 | 2026-09-28 | [poc5_desiree is the platform foundation](0055-poc5-desiree-is-the-platform-foundation.md) | Accepted. Supersedes 0027 |
 | 0056 | 2026-09-28 | [Every action reports an outcome](0056-every-action-reports-an-outcome.md) | Accepted |
+| 0057 | 2026-09-28 | [Read back what matters; answer with his own words](0057-read-back-and-verbatim-evidence.md) | Proposed |

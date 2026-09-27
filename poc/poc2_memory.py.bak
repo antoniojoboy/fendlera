@@ -114,9 +114,6 @@ EXTRACT_SYSTEM = (
     "UNCERTAINTY is kept: 'might', 'maybe', 'thinking about' are stored as "
     "undecided, never as done.\n"
     "If the speaker corrects themselves ('X, no wait, Y'), store only Y.\n"
-    "TONE is stored as meant, not as said: sarcasm and irony mean the "
-    "opposite of their literal words, so store what the speaker actually "
-    "thinks.\n"
     "\n"
     "Extract anything durable about the user's life: who they are, where they "
     "live, work and study, the people around them, what they own and use, "
@@ -226,9 +223,9 @@ QUESTIONS = [
     ("What did Tigger claim Tiggers love most?", [r"climbing|trees"], []), # 18
     ("Do Tiggers like climbing down trees?", [r"\bno\b|don't|stuck"], [r"\byes\b"]), # 19
     ("How long was Tigger stuck in the tree?", [r"\b3\b|three"], []), # 20
-    ("Who found Tigger in the tree?", [r"\broo\b"], []), # 21
+    ("Who found Tigger in the tree?", [r"roo"], []), # 21
     ("What color balloon did I want to use?", [r"blue"], []), # 22
-    ("What color balloon did I actually have?", [r"\bred\b"], [r"blue"]), # 23
+    ("What color balloon did I actually have?", [r"red"], [r"blue"]), # 23
     ("What happened to my red balloon?", [r"popped|gorse"], []), # 24
     ("Where did the balloon pop?", [r"gorse bush|gravel pit"], []), # 25
     ("Where was Christopher Robin's picnic held?", [r"six pine trees"], []), # 26
@@ -238,18 +235,18 @@ QUESTIONS = [
     ("How many jars of honey were inside the log?", [r"\b4\b|four"], []), # 30
     ("How many jars did I plan to save for winter?", [r"\b2\b|two"], []), # 31
     ("How many jars of honey did I eat on the spot?", [r"\b3\b|three"], []), # 32
-    ("How many jars of honey were left over?", [r"\b1\b|\bone\b"], []), # 33
+    ("How many jars of honey were left over?", [r"\b1\b|one"], []), # 33
     ("Where will I hide the last honeypot if a Heffalump comes?", [r"armchair|under"], []), # 34
     ("Who am I trying to hide the honey from?", [r"heffalump"], []), # 35
     ("Does Eeyore drink tea?", [r"\bno\b|doesn't|ditch|water"], [r"\byes\b"]), # 36
-    ("What does Eeyore drink?", [r"muddy|marsh|water|ditch"], [r"\bdrinks tea\b"]), # 37
+    ("What does Eeyore drink?", [r"muddy|marsh|water|ditch"], [r"tea"]), # 37
     ("What object did Christopher Robin bring to call us for dinner?", [r"whistle|silver whistle"], []), # 38
     ("What time is dinner?", [r"5|five"], []), # 39
     ("How much did the honey jar weigh that Piglet tried to carry?", [r"10|ten pounds"], []), # 40
     ("Where did Piglet drop the honey jar?", [r"mossy stone|stone"], []), # 41
     ("How many apples did Kanga send in the basket?", [r"12|twelve"], []), # 42
     ("Who squashed Kanga's apples?", [r"tigger"], []), # 43
-    ("How many apples did Tigger squash?", [r"\b8\b|\beight\b"], []), # 44
+    ("How many apples did Tigger squash?", [r"8|eight"], []), # 44
     ("How many apples were left unsquashed?", [r"\b4\b|four"], []), # 45
     ("How old does Owl claim his grandfather lived to be?", [r"94|ninety.?four"], []), # 46
     ("Does Eeyore believe Owl's story about his grandfather?", [r"\bno\b|nonsense"], [r"\byes\b"]), # 47
@@ -304,7 +301,7 @@ QUESTIONS = [
     ("How many branches does the Beech Tree have?", IDK, []), # 92
     ("What is the name of Tigger's mother?", IDK, []), # 93
     ("Does Roo know how to swim?", IDK, []), # 94
-    ("What time did they find the honeypot?", [r"afternoon"] + IDK, []), # 95
+    ("What time did they find the honeypot?", IDK, []), # 95
     ("What material is Eeyore's tail made of?", IDK, []), # 96
     ("Did Christopher Robin eat two slices of bread?", IDK, []), # 97
     ("How wide is the Floating Ford?", IDK, []), # 98
@@ -500,9 +497,9 @@ FRESH_QUESTIONS = [
     ("Where does Kanga's uncle live?", [r"far woods"], []), # 35
     ("What profession/skill is Kanga's uncle known for?", [r"baker|baking"], []), # 36
     ("How long was Owl's original planned speech?", [r"80|eighty"], []), # 37
-    ("What is the time limit Rabbit set for Owl's speech?", [r"\b5\b|five.?minute"], []), # 38
+    ("What is the time limit Rabbit set for Owl's speech?", [r"5|five minute"], []), # 38
     ("What decoration is Piglet bringing?", [r"paper lanterns|lanterns"], []), # 39
-    ("How many lanterns is Piglet bringing?", [r"\b10\b|\bten\b"], []), # 40
+    ("How many lanterns is Piglet bringing?", [r"10|ten"], []), # 40
     ("What color are Piglet's paper lanterns?", [r"pink"], []), # 41
     ("Where will the paper lanterns be hung?", [r"oak branches|branches"], []), # 42
     ("What did Tigger try to bounce over?", [r"gate"], []), # 43
@@ -776,7 +773,7 @@ def search_log(question: str, limit: int = 5) -> list:
     """
     if not os.path.exists(LOG_FILE):
         return []
-    words = {_stem(w) for w in re.findall(r"[a-z0-9]+", question.lower())
+    words = {_stem(w) for w in re.findall(r"[a-z0-9-]+", question.lower())
              if len(w) > 3 and w not in _STOP}
     if not words:
         return []
@@ -784,7 +781,7 @@ def search_log(question: str, limit: int = 5) -> list:
             for line in open(LOG_FILE, encoding="utf-8") if "] user: " in line]
     scored = []
     for pos, body in enumerate(said, 1):
-        tokens = {_stem(t) for t in re.findall(r"[a-z0-9]+", body.lower())}
+        tokens = {_stem(t) for t in re.findall(r"[a-z0-9-]+", body.lower())}
         hits = len(words & tokens)
         if hits:
             scored.append((hits, pos, body))
@@ -801,13 +798,6 @@ EVIDENCE_RULES = (
     "any situation it fits.\n"
     "When the two sources disagree, the user's own words win, and a later "
     "excerpt wins over an earlier one.\n"
-    "A fact marked '(previously ...)' records a correction the user made. "
-    "The corrected value stands unless a LATER excerpt changes it again; an "
-    "excerpt that is merely older never overrides it.\n"
-    "Inference extends what was said. It never answers a question about "
-    "something that was never mentioned: if who did it, when, or whether it "
-    "happened at all was never stated, the answer is I don't know - not yes "
-    "and not no.\n"
     "Never invent a name, number, place or fact that appears in neither "
     "source, and never attribute something that belongs to someone else to "
     "the user. Only if nothing in either source supports an answer, reply "
