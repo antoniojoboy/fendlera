@@ -107,7 +107,9 @@ export OLLAMA_URL=http://localhost:11434
 # shell silently won and the upgrade never happened. Override with FENDLERA_*
 # instead, which is never exported by this file and so cannot go stale.
 export OLLAMA_MODEL="${FENDLERA_MODEL:-llama3.1:8b-instruct-q8_0}"
-export VLM_MODEL="${FENDLERA_VLM:-qwen2.5vl:7b}"     # poc5 screen describer
+export VLM_MODEL="${FENDLERA_VLM:-qwen2.5vl:3b}"     # poc5 screen describer
+export MODE_SWITCH="${FENDLERA_MODE_SWITCH:-0}"      # HFP/A2DP switching, experimental, off
+export DRIVER_MODEL="${FENDLERA_DRIVER:-qwen3:8b}"     # poc/agent only, not warmed
 # small.en, not base.en. base was mishearing badly on the 16kHz mSBC mic -
 # "tap" as "turn", "Ryzen 9" as "9 rise and 9". STT measures 0.02-0.04s
 # against a 2.0s budget, so there is room to spend and accuracy is the point.

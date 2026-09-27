@@ -1,4 +1,5 @@
 # Desiree — clean set, 13 Sep 2026
+> **Superseded 28 Sep 2026.** `poc/poc5_desiree.py` is the foundation; this set is kept for reference. `poc5_screen_v3` below lives in the archive tarball, not the repo.
 
 Read `desiree-reset-design.pdf` first. It is the spec; these files are the
 parts of it that exist so far. Nothing here is a router or a prompt rule.
