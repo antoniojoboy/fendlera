@@ -64,3 +64,6 @@ thousands of facts.
 
 Every request states its context size explicitly, and a prompt that will not
 fit fails loudly (`ContextOverflow`). It is never silently cut.
+
+**Amended by:** ADR-0062. Subjects become areas and entities routed by code;
+there is no fixed attribute list, and the model chooses only from what exists.

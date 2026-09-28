@@ -72,3 +72,6 @@ whole project.
 | 0059 | 2026-09-28 | [An index and subject files, not one resident facts file](0059-index-and-subject-files.md) | Accepted |
 | 0060 | 2026-09-28 | [Triage at the door: only principals' speech writes facts](0060-triage-at-the-door.md) | Accepted |
 | 0061 | 2026-09-28 | [The bridge: an observation becomes his fact only when he confirms it](0061-the-bridge.md) | Accepted |
+| 0062 | 2026-09-28 | [Routing: context first, the model chooses, it never creates](0062-routing-context-first-model-chooses-never-creates.md) | Accepted |
+| 0063 | 2026-09-28 | [A sharded log, derived stores, and files he can edit](0063-sharded-log-derived-stores-editable-by-him.md) | Accepted |
+| 0064 | 2026-09-28 | [Reference material: stored once, indexed many ways, never his fact](0064-reference-material-is-observed-never-his-fact.md) | Accepted |
