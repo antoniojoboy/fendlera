@@ -258,6 +258,9 @@ SWITCHES = ("EXTRACT_MODEL", "ANSWER_MODEL", "QUOTE_CHECK", "SPEAKER_AWARE",
             "FACTS_FILE", "FACTS_LOG_FILE")
 
 
+SYSTEM = os.environ.get("MEM_SYSTEM", "poc2_memory")   # module under test
+
+
 def load_system(workdir: Path, env: dict):
     """(Re)import poc2_memory with its files in workdir and switches from env."""
     workdir.mkdir(parents=True, exist_ok=True)
@@ -268,10 +271,10 @@ def load_system(workdir: Path, env: dict):
             os.environ[k] = str(v)
     os.environ["FACTS_FILE"] = str(workdir / "facts.md")
     os.environ["FACTS_LOG_FILE"] = str(workdir / "facts_log.md")
-    argv, sys.argv = sys.argv, ["poc2_memory"]       # it reads flags at import
+    argv, sys.argv = sys.argv, [SYSTEM]       # it reads flags at import
     try:
-        mod = importlib.reload(sys.modules["poc2_memory"]) if "poc2_memory" in sys.modules \
-            else importlib.import_module("poc2_memory")
+        mod = importlib.reload(sys.modules[SYSTEM]) if SYSTEM in sys.modules \
+            else importlib.import_module(SYSTEM)
     finally:
         sys.argv = argv
     if not hasattr(mod, "STRICT_PARSE") or "speaker" not in mod.extract.__code__.co_varnames:
@@ -335,7 +338,7 @@ def seed_snapshots(ds: dict, sizes: list, variant: dict, extract_model: str,
     then distractors up to the size, then late statements (corrections,
     forgetting) applied to a copy. Returns {size: {"dir": Path, "stats": {...}}}.
     """
-    key_src = json.dumps(["harness-v2", ds["name"], ds["_hash"], extract_model,
+    key_src = json.dumps(["harness-v2", *([SYSTEM] if SYSTEM != "poc2_memory" else []), ds["name"], ds["_hash"], extract_model,
                           variant.get("speaker_aware", False),
                           variant.get("input", "clean"), variant.get("num_ctx"),
                           variant.get("num_predict"), dseed,
@@ -714,6 +717,23 @@ def cmd_noisify(args):
     cache = noisify([s["text"] for s in d["statements"]])
     for s in d["statements"][:5]:
         print(f"  said : {s['text'][:90]}\n  heard: {cache[s['text']][:90]}\n")
+
+
+# ------------------------------------------------------------------ attributed answers (ADR-0058)
+_ATTRIBUTED_SOURCE = re.compile(r"\b(the tv|television|on (the|your) screen|a guest|someone|"
+                                r"i (heard|saw)|was mentioned|mentioned|overheard)\b")
+_NOT_FROM_HIM = re.compile(r"\b(you('ve| have)? never (told|said|mentioned)|you haven'?t (told|said)|"
+                           r"not from you|you didn'?t tell me|never heard (it|that) from you)\b")
+_base_verdict = verdict
+
+
+def verdict(answer, q, *args, **kwargs):
+    """An observation answered as one is scored like "I don't know"."""
+    v = _base_verdict(answer, q, *args, **kwargs)
+    a = (answer or "").lower()
+    if v == "FAB" and _ATTRIBUTED_SOURCE.search(a) and _NOT_FROM_HIM.search(a):
+        return _base_verdict("I don't know.", q, *args, **kwargs)
+    return v
 
 
 def main():

@@ -1,0 +1,31 @@
+# POC 6 against the POC 2 baseline (round 2, 28 Sep 2026). Same models, same
+# context, same datasets and distractor seed, so rows compare directly.
+#
+#   python poc/eval/add_system_switch.py                     # once
+#   MEM_SYSTEM=poc6_memory python poc/eval/eval.py plan configs/poc6.yaml
+#   MEM_SYSTEM=poc6_memory python poc/eval/eval.py run  configs/poc6.yaml \
+#       > poc/eval/poc6_run.log 2>&1
+#
+# Bars, set before running:
+#   - fabrications on house at size 0: fewer than POC 2's 4
+#   - accuracy on house at size 0: inside or above POC 2's 70.5-75% band
+#   - flat with size: no refused extractions at 1000 on 8k context
+#     (POC 2 refused 607 there)
+#   - answer time p95 at size 1000: 1.5s or less (selection + answer, two calls).
+#     Past that, log scanning or selection needs an index - measured, not assumed.
+
+extract_model: qwen3:8b
+answer_model: qwen3:14b
+server_context: 4096
+distractor_seed: 7
+repeats: 1
+estimate_seconds: {extract: 0.6, answer: 0.7}
+
+variants:
+  baseline: {num_ctx: 8192, num_predict: 1024, quote_check: true, speaker_aware: true}
+
+jobs:
+  - {dataset: house,      variant: baseline, sizes: [0, 250, 500, 1000]}
+  - {dataset: pooh_main,  variant: baseline, sizes: [0]}
+  - {dataset: pooh_held,  variant: baseline, sizes: [0]}
+  - {dataset: pooh_fresh, variant: baseline, sizes: [0]}

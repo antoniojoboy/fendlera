@@ -34,3 +34,4 @@ poc/quiz_report*.jsonl
 poc/results/
 poc/eval/*.log
 poc/eval/results/
+poc/memory6/
