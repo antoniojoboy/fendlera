@@ -20,3 +20,4 @@ evidence/
 # local
 .env
 *.tar.gz
+poc/eval/results/

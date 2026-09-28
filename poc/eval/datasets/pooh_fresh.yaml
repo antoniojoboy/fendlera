@@ -1,0 +1,262 @@
+name: pooh_fresh
+description: Owner-written statements (Rabbit's party), questions rebuilt 28 Sep 2026.
+statements:
+- text: right then, Rabbit here, organizing the grand Hundred Acre Autumn Party, and everything must go
+    strictly according to schedule
+  speaker: owner
+  phase: early
+- text: the party is set for my burrow near the Cabbage Patch
+  speaker: owner
+  phase: early
+- text: I used to bake dandelion pie for these events, but I burnt it twice in 1926 and I refuse to ever
+    make it again
+  speaker: owner
+  phase: early
+- text: Pooh insists we should serve sweet honeycakes, I think it's a terrible sticky idea, but everyone
+    else voted for it so fine
+  speaker: owner
+  phase: early
+- text: oh how I love when Tigger bounces uninvited into my garden, said absolutely nobody ever, he knocked
+    over six of my best pumpkin vines
+  speaker: owner
+  phase: early
+- text: Eeyore is supposed to collect thistles on morning duty if it doesn't fog up
+  speaker: owner
+  phase: early
+- text: Christopher Robin is bringing three linen tablecloths from his house at the Top of the Forest
+  speaker: owner
+  phase: early
+- text: my cousin Late-in-Life, who is a small grey beetle, is in charge of music
+  speaker: owner
+  phase: early
+- text: reckon we will set up six wooden picnic tables if we can get volunteers under three hours
+  speaker: owner
+  phase: early
+- text: Gopher is digging a grand tunnel straight to the party table, pick up time for the apple cider
+    is 2:30
+  speaker: owner
+  phase: early
+- text: blasphemy, what a mess, the stream flooded the lower path and everyone got their paws completely
+    soaked
+  speaker: owner
+  phase: early
+- text: I cannot stand eating caterpillars, found that out during the big spring picnic
+  speaker: owner
+  phase: early
+- text: my friend Roo is the one with the blue toy sailing boat, I just let him sail it in my wooden bucket
+  speaker: owner
+  phase: early
+- text: actually scratch what I said earlier about Friday, the party is shifted to Saturday now because
+    of the heavy rain
+  speaker: owner
+  phase: early
+- text: Kanga's relative, her uncle who lives over in the Far Woods, is a renowned baker
+  speaker: owner
+  phase: early
+- text: Owl volunteered to read an eighty-page speech on forest history, but I told him he has a five-minute
+    limit
+  speaker: owner
+  phase: early
+- text: Piglet is bringing ten pink paper lanterns to string between the oak branches
+  speaker: owner
+  phase: early
+- text: hoo-hoo-hoo-hoo! Tigger here, I tried to bounce over Christopher Robin's gate and landed straight
+    in a patch of wild clover
+  speaker: owner
+  phase: early
+- text: Eeyore's birthday party was held at the 100 Aker Wood signpost, and we had a cake with three white
+    candles
+  speaker: owner
+  phase: early
+- text: Owl wrote 'HIPY PAPY OTH BTHUTH' on Eeyore's card using black ink
+  speaker: owner
+  phase: early
+questions:
+- q: Who's running the Autumn Party?
+  expect:
+  - rabbit
+  category: direct
+- q: Where's the party?
+  expect:
+  - burrow|cabbage patch
+  category: direct
+- q: What day is the party?
+  expect:
+  - saturday
+  category: correction
+- q: Why was the party moved?
+  expect:
+  - \brain
+  category: paraphrase
+- q: What year did the pie disasters happen?
+  expect:
+  - '1926'
+  category: paraphrase
+- q: Who wanted honeycakes?
+  expect:
+  - \bpooh\b
+  category: direct
+- q: Why are honeycakes on the menu?
+  expect:
+  - vote|insist
+  category: paraphrase
+- q: What did Tigger wreck?
+  expect:
+  - pumpkin
+  category: paraphrase
+- q: How many pumpkin vines were lost?
+  expect:
+  - \b6\b|\bsix\b
+  category: direct
+- q: What fabric are the tablecloths?
+  expect:
+  - linen
+  category: paraphrase
+- q: Where is Christopher Robin bringing the tablecloths from?
+  expect:
+  - top of the forest
+  category: direct
+- q: Who's doing the music?
+  expect:
+  - late-in-life|beetle|cousin
+  category: direct
+- q: How is Late-in-Life related to Rabbit?
+  expect:
+  - cousin
+  category: direct
+- q: What colour is the music beetle?
+  expect:
+  - grey|gray
+  category: paraphrase
+- q: How many tables are going up?
+  expect:
+  - \b6\b|\bsix\b
+  category: direct
+- q: What's Gopher up to?
+  expect:
+  - tunnel|\bdig
+  category: paraphrase
+- q: What's being collected at 2:30?
+  expect:
+  - cider
+  category: paraphrase
+- q: What time do I need to fetch the cider?
+  expect:
+  - 2:30|two.?thirty|half past two
+  category: direct
+- q: Why were everyone's paws wet?
+  expect:
+  - stream|flood
+  category: paraphrase
+- q: Where does Roo sail his boat?
+  expect:
+  - bucket
+  category: direct
+- q: What does Kanga's uncle do?
+  expect:
+  - \bbak
+  category: direct
+- q: Where does Kanga's uncle live?
+  expect:
+  - far woods
+  category: direct
+- q: How long can Owl talk for?
+  expect:
+  - \b5\b|\bfive\b
+  category: paraphrase
+- q: How long was Owl's speech meant to be?
+  expect:
+  - \b80\b|eighty
+  category: paraphrase
+- q: How many lanterns is Piglet bringing?
+  expect:
+  - \b10\b|\bten\b
+  category: direct
+- q: Where are the lanterns going?
+  expect:
+  - \boak\b
+  category: direct
+- q: What did Tigger land in?
+  expect:
+  - clover
+  category: direct
+- q: Where was Eeyore's birthday?
+  expect:
+  - signpost|100 aker
+  category: direct
+- q: How many candles were on Eeyore's cake?
+  expect:
+  - \b3\b|\bthree\b
+  category: direct
+- q: What did Owl write on Eeyore's card?
+  expect:
+  - hipy papy|bthuth
+  category: direct
+- q: Should I bring a dandelion pie?
+  expect:
+  - \bno\b|refuse|burnt|won't|\bnot\b
+  category: implicit
+  reject:
+  - \byes\b
+- q: Is the party still on Friday?
+  expect:
+  - \bno\b|saturday
+  category: correction
+  reject:
+  - \byes\b
+- q: Is Tigger welcome in Rabbit's garden?
+  expect:
+  - \bno\b|\bnot\b|uninvited
+  category: sarcasm
+  reject:
+  - \byes\b
+- q: It's foggy on party morning, will Eeyore collect thistles?
+  expect:
+  - \bno\b|\bnot\b|won't
+  category: conditional
+  reject:
+  - \byes\b
+- q: Can I put caterpillars on the menu for Rabbit?
+  expect:
+  - \bno\b|can't|cannot|\bnot\b
+  category: implicit
+  reject:
+  - \byes\b
+- q: Whose toy boat is it?
+  expect:
+  - \broo\b
+  category: ownership
+- q: What will the picnic tables be made of?
+  expect:
+  - wood
+  category: direct
+- q: What could stop the six tables going up?
+  expect:
+  - volunteer|three hours|\b3\b
+  category: conditional
+- q: Does Rabbit want honeycakes?
+  expect:
+  - \bno\b|terrible|sticky|\bnot\b
+  category: negation
+  reject:
+  - \byes\b
+- q: Who baked Eeyore's cake?
+  expect:
+  - IDK
+  category: trap
+- q: What time does the party start?
+  expect:
+  - IDK
+  category: trap
+- q: What instrument does Late-in-Life play?
+  expect:
+  - IDK
+  category: trap
+- q: How many volunteers have signed up?
+  expect:
+  - IDK
+  category: trap
+- q: What flavour are the honeycakes?
+  expect:
+  - IDK
+  category: trap

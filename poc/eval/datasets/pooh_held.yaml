@@ -1,0 +1,220 @@
+name: pooh_held
+description: Owner-written statements (Piglet's blustery day), questions rebuilt 28 Sep 2026.
+statements:
+- text: d-d-dear me, it's Piglet speaking, on a very blustery Thursday morning in the Hundred Acre Wood
+  speaker: owner
+  phase: early
+- text: I was trying to sweep oak leaves outside my house when a big gust of wind blew my red woolen scarf
+    all the way over to the Hundred Acre Meadow
+  speaker: owner
+  phase: early
+- text: Pooh came along eating a pot of crisp crunchy acorns—no wait, silly bear, he was eating golden
+    honey straight from an earthenware crock
+  speaker: owner
+  phase: early
+- text: we went to look for my scarf near Owl's house, but Owl's treetop home had blown right over onto
+    the wet grass
+  speaker: owner
+  phase: early
+- text: Eeyore was building a new house out of birch sticks at Pooh Corner, though it keeps falling down
+    whenever someone sneezes
+  speaker: owner
+  phase: early
+- text: Kanga gave us warm goat milk with ginger for tea time at four o'clock to keep us cold-free
+  speaker: owner
+  phase: early
+- text: Tigger doesn't eat honey or haycorns, he tried them both and said they are nasty things, he only
+    eats extract of malt from a glass jar
+  speaker: owner
+  phase: early
+- text: if it stops raining by five o'clock, Christopher Robin promised to lead an expedition to find
+    the North Pole
+  speaker: owner
+  phase: early
+- text: Rabbit was busy in his garden planting twenty-four orange carrots, but a family of field mice
+    ate twelve of them before noon
+  speaker: owner
+  phase: early
+- text: Christopher Robin lost his rubber gumboots near the Stream, so he had to wear brown leather shoes
+    instead
+  speaker: owner
+  phase: early
+- text: Roo was wearing a bright yellow raincoat that Kanga made out of an old tablecloth
+  speaker: owner
+  phase: early
+- text: Owl tried to write a poem about the storm on a piece of birch bark, but his quill broke
+  speaker: owner
+  phase: early
+- text: Pooh found my red woolen scarf stuck on top of a tall gorse bush near the Posing Bear Tree
+  speaker: owner
+  phase: early
+- text: we saw a strange footprint in the mud near the Pinehead Stand, but Eeyore said it was just his
+    own hoofmark from this morning
+  speaker: owner
+  phase: early
+- text: Rabbit caught six caterpillars on his cabbage leaves and put them in a tin box
+  speaker: owner
+  phase: early
+questions:
+- q: Who's telling this?
+  expect:
+  - piglet
+  category: direct
+- q: What day is it?
+  expect:
+  - thursday
+  category: direct
+- q: What was Piglet doing when the scarf blew off?
+  expect:
+  - sweep
+  category: paraphrase
+- q: What did Piglet lose?
+  expect:
+  - scarf
+  category: implicit
+- q: What colour is Piglet's scarf?
+  expect:
+  - \bred\b
+  category: direct
+- q: Where did the wind first carry the scarf?
+  expect:
+  - meadow
+  category: paraphrase
+- q: What was Pooh eating out of?
+  expect:
+  - crock|earthenware
+  category: direct
+- q: What happened to Owl's house?
+  expect:
+  - blown|blew|fell|over
+  category: paraphrase
+- q: What's Eeyore's new house made of?
+  expect:
+  - birch|stick
+  category: direct
+- q: What knocks Eeyore's house down?
+  expect:
+  - sneez
+  category: paraphrase
+  reject:
+  - \bwind\b
+- q: What did Kanga give us at tea?
+  expect:
+  - goat|ginger
+  category: direct
+- q: When is tea at Kanga's?
+  expect:
+  - \b4\b|\bfour\b
+  category: direct
+- q: What does Tigger's food come in?
+  expect:
+  - \bjar\b
+  category: direct
+- q: Who's leading the expedition?
+  expect:
+  - christopher robin
+  category: direct
+- q: Who got into Rabbit's garden?
+  expect:
+  - \bmice\b
+  category: paraphrase
+- q: Where did Christopher Robin lose his boots?
+  expect:
+  - stream
+  category: direct
+- q: Who made Roo's raincoat?
+  expect:
+  - kanga
+  category: direct
+- q: What was Roo's raincoat before it was a raincoat?
+  expect:
+  - tablecloth
+  category: paraphrase
+- q: Why didn't Owl finish his poem?
+  expect:
+  - quill
+  category: paraphrase
+- q: Who found the scarf?
+  expect:
+  - \bpooh\b
+  category: direct
+- q: Where was the scarf in the end?
+  expect:
+  - gorse|posing bear
+  category: direct
+- q: Whose footprint was in the mud?
+  expect:
+  - eeyore
+  category: ownership
+- q: What's in Rabbit's tin box?
+  expect:
+  - caterpillar
+  category: direct
+- q: Was Pooh eating acorns?
+  expect:
+  - \bno\b|honey
+  category: correction
+  reject:
+  - \byes\b
+- q: Should we sneeze near Eeyore's house?
+  expect:
+  - \bno\b|fall|collapse
+  category: implicit
+  reject:
+  - \byes\b
+- q: I'm packing Tigger a snack, honey or haycorns?
+  expect:
+  - neither|\bno\b|\bmalt\b|\bnot\b|doesn't|does not
+  category: implicit
+  reject:
+  - \byes\b
+- q: Is the North Pole expedition definitely happening?
+  expect:
+  - \bno\b|\bnot\b|\bif\b|depends|rain
+  category: conditional
+  reject:
+  - \byes\b
+- q: It's still raining at six, is the expedition on?
+  expect:
+  - \bno\b|\bnot\b|\boff\b|cancel
+  category: conditional
+  reject:
+  - \byes\b
+- q: How many of Rabbit's carrots are left?
+  expect:
+  - \b12\b|twelve
+  category: arithmetic
+- q: Why is Christopher Robin in leather shoes?
+  expect:
+  - \blost\b|gumboot|boots
+  category: implicit
+- q: Should we worry about a Heffalump near the Pinehead Stand?
+  expect:
+  - \bno\b|eeyore|hoof
+  category: implicit
+  reject:
+  - \byes\b
+- q: How many caterpillars has Rabbit got?
+  expect:
+  - \b6\b|\bsix\b
+  category: direct
+- q: What time did the wind start?
+  expect:
+  - IDK
+  category: trap
+- q: What time did Pooh find the scarf?
+  expect:
+  - IDK
+  category: trap
+- q: Did Pooh share his honey with Piglet?
+  expect:
+  - IDK
+  category: trap
+- q: What did Owl's poem say?
+  expect:
+  - IDK
+  category: trap
+- q: What colour is Pooh's crock?
+  expect:
+  - IDK
+  category: trap

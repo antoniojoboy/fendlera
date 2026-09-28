@@ -1,0 +1,12 @@
+# Smoke test: proves the harness works end to end on this machine. Minutes.
+extract_model: qwen3:8b
+answer_model: qwen3:14b
+server_context: 4096
+distractor_seed: 7
+repeats: 1
+estimate_seconds: {extract: 0.5, answer: 0.6}
+variants:
+  baseline: {num_ctx: 8192, num_predict: 1024, quote_check: true, speaker_aware: false}
+jobs:
+  - {dataset: house,      variant: baseline, sizes: [0, 20]}
+  - {dataset: pooh_fresh, variant: baseline, sizes: [0]}

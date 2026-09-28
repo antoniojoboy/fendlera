@@ -1,0 +1,152 @@
+/home/antoniojoboy/Documents/github/fendlera/poc/eval/eval.py:631: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  started = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+=== house.baseline
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 52 facts, extract prompt up to ~1562 tokens, 0 failed extractions
+      distractors to 250: 50/250  (0 errors so far)
+      distractors to 250: 100/250  (0 errors so far)
+      distractors to 250: 150/250  (0 errors so far)
+      distractors to 250: 200/250  (0 errors so far)
+      distractors to 250: 250/250  (0 errors so far)
+      size 250: 369 facts, extract prompt up to ~5541 tokens, 0 failed extractions
+      distractors to 500: 50/250  (0 errors so far)
+      distractors to 500: 100/250  (1 errors so far)
+      distractors to 500: 150/250  (2 errors so far)
+      distractors to 500: 200/250  (52 errors so far)
+      distractors to 500: 250/250  (102 errors so far)
+      size 500: 532 facts, extract prompt up to ~7799 tokens, 107 failed extractions
+      distractors to 1000: 50/500  (50 errors so far)
+      distractors to 1000: 100/500  (100 errors so far)
+      distractors to 1000: 150/500  (150 errors so far)
+      distractors to 1000: 200/500  (200 errors so far)
+      distractors to 1000: 250/500  (250 errors so far)
+      distractors to 1000: 300/500  (300 errors so far)
+      distractors to 1000: 350/500  (350 errors so far)
+      distractors to 1000: 400/500  (400 errors so far)
+      distractors to 1000: 450/500  (450 errors so far)
+      distractors to 1000: 500/500  (500 errors so far)
+      size 1000: 532 facts, extract prompt up to ~7799 tokens, 607 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 10  ERROR 0
+    quiz size 500 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 12  ERROR 0
+    quiz size 1000 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 12  ERROR 0
+
+=== house.big_context
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=16384)
+      size 0: 52 facts, extract prompt up to ~1562 tokens, 0 failed extractions
+      distractors to 500: 50/500  (0 errors so far)
+      distractors to 500: 100/500  (0 errors so far)
+      distractors to 500: 150/500  (0 errors so far)
+      distractors to 500: 200/500  (0 errors so far)
+      distractors to 500: 250/500  (0 errors so far)
+      distractors to 500: 300/500  (0 errors so far)
+      distractors to 500: 350/500  (1 errors so far)
+      distractors to 500: 400/500  (1 errors so far)
+      distractors to 500: 450/500  (1 errors so far)
+      distractors to 500: 500/500  (1 errors so far)
+      size 500: 654 facts, extract prompt up to ~9440 tokens, 1 failed extractions
+      distractors to 1000: 50/500  (0 errors so far)
+      distractors to 1000: 100/500  (0 errors so far)
+      distractors to 1000: 150/500  (0 errors so far)
+      distractors to 1000: 200/500  (0 errors so far)
+      distractors to 1000: 250/500  (0 errors so far)
+      distractors to 1000: 300/500  (0 errors so far)
+      distractors to 1000: 350/500  (0 errors so far)
+      distractors to 1000: 400/500  (0 errors so far)
+      distractors to 1000: 450/500  (28 errors so far)
+      distractors to 1000: 500/500  (78 errors so far)
+      size 1000: 1102 facts, extract prompt up to ~15590 tokens, 84 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 500 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 11  ERROR 0
+    quiz size 1000 with qwen3:14b (repeat 1/1)
+      answerable 65.9%  FAB 12  ERROR 0
+
+=== house.speaker_noquote
+    seeding house with qwen3:8b (speaker_aware=1, input=clean, num_ctx=8192)
+      size 0: 46 facts, extract prompt up to ~1659 tokens, 0 failed extractions
+      distractors to 250: 50/250  (0 errors so far)
+      distractors to 250: 100/250  (0 errors so far)
+      distractors to 250: 150/250  (0 errors so far)
+      distractors to 250: 200/250  (0 errors so far)
+      distractors to 250: 250/250  (0 errors so far)
+      size 250: 318 facts, extract prompt up to ~5507 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 79.5%  FAB 11  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 79.5%  FAB 11  ERROR 0
+
+=== house.noisy_fair
+    seeding house with qwen3:8b (speaker_aware=0, input=noisy, num_ctx=8192)
+      size 0: 51 facts, extract prompt up to ~1587 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+  noisify: 51 statements through Piper and Whisper
+    50/51
+      answerable 56.8%  FAB 9  ERROR 0
+
+=== house.noisy_vocab
+  noisify: 29 statements through Piper and Whisper
+    seeding house with qwen3:8b (speaker_aware=0, input=noisy_vocab, num_ctx=8192)
+      size 0: 49 facts, extract prompt up to ~1537 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+  noisify: 51 statements through Piper and Whisper
+    50/51
+      answerable 65.9%  FAB 12  ERROR 0
+
+=== house.seedvar_1
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 53 facts, extract prompt up to ~1566 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 75.0%  FAB 9  ERROR 0
+
+=== house.seedvar_2
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 52 facts, extract prompt up to ~1601 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 75.0%  FAB 9  ERROR 0
+
+=== house.seedvar_3
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 57 facts, extract prompt up to ~1584 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 10  ERROR 0
+
+# POC 2 evaluation summary
+
+714 answers. PASS = right, MISS = said it didn't know, FAB = said something wrong (fabrication). Answerable excludes traps.
+
+## By job, model and size
+
+| job | answer model | size | facts | answerable | traps | FAB | FAB rate | errors | facts-only FAB | downgraded | answer s p50 / p95 | prompt tok max | over ctx | VRAM peak |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| house.baseline | qwen3:14b | 0 | 52 | 31/44 70.5% | 3/7 | 10 | 19.6% | 0 | 18 | 5 | 0.5 / 0.8 | 1452 | 0 | 11307 |
+| house.baseline | qwen3:14b | 250 | 369 | 32/44 72.7% | 3/7 | 10 | 19.6% | 0 | 23 | 2 | 0.7 / 1.0 | 5420 | 0 | 11265 |
+| house.baseline | qwen3:14b | 500 | 532 | 31/44 70.5% | 3/7 | 12 | 23.5% | 0 | 25 | 1 | 0.8 / 1.2 | 7647 | 0 | 11224 |
+| house.baseline | qwen3:14b | 1000 | 532 | 31/44 70.5% | 3/7 | 12 | 23.5% | 0 | 25 | 1 | 0.8 / 1.1 | 7647 | 0 | 11220 |
+| house.big_context | qwen3:14b | 0 | 52 | 31/44 70.5% | 3/7 | 10 | 19.6% | 0 | 19 | 5 | 0.5 / 0.8 | 1452 | 0 | 12500 |
+| house.big_context | qwen3:14b | 500 | 654 | 32/44 72.7% | 3/7 | 11 | 21.6% | 0 | 23 | 1 | 0.9 / 1.3 | 9332 | 0 | 12506 |
+| house.big_context | qwen3:14b | 1000 | 1102 | 29/44 65.9% | 3/7 | 12 | 23.5% | 0 | 25 | 2 | 1.2 / 1.9 | 15438 | 0 | 12466 |
+| house.noisy_fair | qwen3:14b | 0 | 51 | 25/44 56.8% | 3/7 | 9 | 17.6% | 0 | 15 | 6 | 0.5 / 0.8 | 1375 | 0 | 11538 |
+| house.noisy_vocab | qwen3:14b | 0 | 49 | 29/44 65.9% | 4/7 | 12 | 23.5% | 0 | 19 | 4 | 0.5 / 0.7 | 1390 | 0 | 11501 |
+| house.seedvar_1 | qwen3:14b | 0 | 53 | 33/44 75.0% | 3/7 | 9 | 17.6% | 0 | 19 | 4 | 0.5 / 0.8 | 1455 | 0 | 11501 |
+| house.seedvar_2 | qwen3:14b | 0 | 52 | 33/44 75.0% | 3/7 | 9 | 17.6% | 0 | 19 | 4 | 0.5 / 0.8 | 1491 | 0 | 11499 |
+| house.seedvar_3 | qwen3:14b | 0 | 57 | 31/44 70.5% | 3/7 | 10 | 19.6% | 0 | 19 | 4 | 0.5 / 0.8 | 1455 | 0 | 11489 |
+| house.speaker_noquote | qwen3:14b | 0 | 46 | 35/44 79.5% | 3/7 | 11 | 21.6% | 0 | 18 | 0 | 0.2 / 0.5 | 1249 | 0 | 11320 |
+| house.speaker_noquote | qwen3:14b | 250 | 318 | 35/44 79.5% | 3/7 | 11 | 21.6% | 0 | 23 | 0 | 0.4 / 0.7 | 5141 | 0 | 11226 |
+
+ERROR = the call failed (timeout or prompt too big for the context). It counts as not answered. Seed-time failures are in seed_stats.json.
+
+
+## Integrity checks
+
+- Ollama truncation warnings during this run: 0
+- Models not fully on the GPU: 0
+
+
+full results: /home/antoniojoboy/Documents/github/fendlera/poc/eval/results/run_20260928_1655_round2

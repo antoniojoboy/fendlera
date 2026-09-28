@@ -1,0 +1,273 @@
+name: pooh_main
+description: Owner-written statements (Pooh's honey expedition), questions rebuilt 28 Sep 2026.
+statements:
+- text: oh rum-tum-tiddle-um-tum, it is me Winnie the Pooh, though most of my friends in the Hundred Acre
+    Wood just call me Pooh or Pooh Bear, anyway
+  speaker: owner
+  phase: early
+- text: so this morning my tummy was doing a rumble-tumble, so I went to visit Piglet at his house in
+    the Beech Tree, which is right in the middle of the forest
+  speaker: owner
+  phase: early
+- text: Piglet offered me some haycorns, but oh dear, a bear of very little brain doesn't eat haycorns,
+    I only wanted sweet golden honey
+  speaker: owner
+  phase: early
+- text: we went to see Owl at the Chestnuts to borrow a tall ladder, but Owl kept talking about his Uncle
+    Robert for twenty minutes, so we left without it
+  speaker: owner
+  phase: early
+- text: Rabbit said there was a massive honeycomb up in the Great Oak, but wait, no, sorry, he remembered
+    wrong—it was actually at the Sandy Pit near Kanga's place
+  speaker: owner
+  phase: early
+- text: Eeyore was sitting by the Thistle Patch looking sad because he lost his tail again, so Piglet
+    gave him a pink ribbon to cheer him up
+  speaker: owner
+  phase: early
+- text: Tigger bounced by and said he wanted to help us reach the honeycomb, claiming Tiggers love climbing
+    high trees more than anything else
+  speaker: owner
+  phase: early
+- text: well, turns out Tiggers don't like climbing down trees at all, so he got stuck on a branch for
+    three whole hours until Roo found him
+  speaker: owner
+  phase: early
+- text: I thought about floating up with a balloon, a blue one to look like the sky, but I don't have
+    any blue ones left—only a small red one
+  speaker: owner
+  phase: early
+- text: for lunch Christopher Robin made everyone a picnic at the Six Pine Trees, and we had buttered
+    condensed milk on bread, which is my second favorite food
+  speaker: owner
+  phase: early
+- text: by the afternoon we finally found a honeypot hidden inside a hollow log near the Floating Ford,
+    and it had four large jars inside
+  speaker: owner
+  phase: early
+- text: I was going to save two jars for winter, but oh bother, I accidentally ate three jars right there
+    on the spot
+  speaker: owner
+  phase: early
+- text: if the Heffalump comes by tonight, I'll hide my last jar under the armchair, don't tell him where
+    it is
+  speaker: owner
+  phase: early
+- text: Eeyore doesn't drink tea by the way, he only drinks muddy marsh water from the damp ditch
+  speaker: owner
+  phase: early
+- text: Christopher Robin brought his silver whistle to call us for dinner at five o'clock sharp
+  speaker: owner
+  phase: early
+- text: my red balloon actually popped when it hit a gorse bush near the gravel pit
+  speaker: owner
+  phase: early
+- text: Piglet tried to carry one of the honey jars, but it weighed ten pounds and he dropped it on a
+    mossy stone
+  speaker: owner
+  phase: early
+- text: Kanga sent a basket with twelve fresh apples, but Tigger accidentally bounced into it and squashed
+    eight of them
+  speaker: owner
+  phase: early
+- text: Owl claims his grandfather lived to be ninety-four years old, but Eeyore says that's complete
+    nonsense
+  speaker: owner
+  phase: early
+- text: Christopher Robin wrote a note with a purple crayon saying 'GON OUT BACKSON', which Rabbit misread
+    as a dangerous monster
+  speaker: owner
+  phase: early
+questions:
+- q: What's my name?
+  expect:
+  - winnie|\bpooh\b
+  category: direct
+- q: What do most of my friends call me?
+  expect:
+  - \bpooh\b
+  category: direct
+- q: Where's Piglet's place?
+  expect:
+  - beech tree
+  category: direct
+- q: Is Piglet's house on the edge of the forest?
+  expect:
+  - \bno\b|middle
+  category: negation
+  reject:
+  - \byes\b
+- q: What did Piglet try to feed me?
+  expect:
+  - haycorn
+  category: paraphrase
+- q: Why did we go to Owl's?
+  expect:
+  - ladder
+  category: paraphrase
+- q: What stopped us getting the ladder?
+  expect:
+  - uncle robert|talk
+  category: paraphrase
+- q: How long did Owl go on for?
+  expect:
+  - \b20\b|twenty
+  category: paraphrase
+- q: Where is the honeycomb?
+  expect:
+  - sandy pit|kanga
+  category: correction
+- q: Who got the honeycomb's location wrong at first?
+  expect:
+  - rabbit
+  category: correction
+- q: What's wrong with Eeyore today?
+  expect:
+  - \btail\b|\bsad\b
+  category: paraphrase
+- q: How did Piglet try to cheer Eeyore up?
+  expect:
+  - ribbon
+  category: paraphrase
+- q: Who rescued Tigger?
+  expect:
+  - \broo\b
+  category: paraphrase
+- q: How long was Tigger stuck up there?
+  expect:
+  - \b3\b|\bthree\b
+  category: direct
+- q: What popped my balloon?
+  expect:
+  - gorse
+  category: paraphrase
+- q: Where did we have lunch?
+  expect:
+  - six pine
+  category: direct
+- q: Who made lunch?
+  expect:
+  - christopher robin
+  category: direct
+- q: Where was the honey found?
+  expect:
+  - hollow log|floating ford
+  category: direct
+- q: How many jars were in the log?
+  expect:
+  - \b4\b|\bfour\b
+  category: direct
+- q: Where's my last jar going if the Heffalump shows up?
+  expect:
+  - armchair
+  category: conditional
+- q: What will Christopher Robin use to call us in?
+  expect:
+  - whistle
+  category: paraphrase
+- q: When's dinner?
+  expect:
+  - \b5\b|\bfive\b
+  category: direct
+- q: Who ruined Kanga's apples?
+  expect:
+  - tigger
+  category: paraphrase
+- q: What age does Owl claim his grandfather reached?
+  expect:
+  - \b94\b|ninety.?four
+  category: direct
+- q: What did Christopher Robin's note actually say?
+  expect:
+  - backson|gon out
+  category: direct
+- q: Who thought the note was about a monster?
+  expect:
+  - rabbit
+  category: paraphrase
+- q: What did Christopher Robin write the note with?
+  expect:
+  - crayon
+  category: direct
+- q: Piglet's offering haycorns again, will I want them?
+  expect:
+  - \bno\b|\bnot\b|don't (want|eat|like)|honey
+  category: implicit
+  reject:
+  - \byes\b
+- q: Can Tigger get down from trees easily?
+  expect:
+  - \bno\b|\bnot\b|stuck|don't like
+  category: negation
+  reject:
+  - \byes\b
+- q: Why didn't I use a blue balloon?
+  expect:
+  - don't have|didn't have|no blue|only .{0,20}red|none left|\bout of\b
+  category: implicit
+- q: Do I still have a balloon?
+  expect:
+  - \bno\b|popped
+  category: negation
+  reject:
+  - \byes\b
+- q: What's my favourite food?
+  expect:
+  - honey
+  category: implicit
+- q: How many jars were left after I ate on the spot?
+  expect:
+  - \b1\b|\bone\b
+  category: arithmetic
+  reject:
+  - \b2\b|\btwo\b
+- q: Did I stick to my plan of saving two jars?
+  expect:
+  - \bno\b|didn't|\bate\b
+  category: negation
+  reject:
+  - \byes\b
+- q: Should I offer Eeyore a cup of tea?
+  expect:
+  - \bno\b|doesn't|marsh|water
+  category: implicit
+  reject:
+  - \byes\b
+- q: Why did Piglet drop the jar?
+  expect:
+  - heavy|\b10\b|\bten\b|weigh
+  category: paraphrase
+- q: How many of Kanga's apples are still good?
+  expect:
+  - \b4\b|\bfour\b
+  category: arithmetic
+- q: Does Eeyore believe Owl about his grandfather?
+  expect:
+  - \bno\b|nonsense|\bnot\b|doesn't
+  category: negation
+  reject:
+  - \byes\b
+- q: What time did we have lunch?
+  expect:
+  - IDK
+  category: trap
+- q: What did Owl serve us?
+  expect:
+  - IDK
+  category: trap
+- q: Who ate the apples Tigger squashed?
+  expect:
+  - IDK
+  category: trap
+- q: Did Roo climb the tree to get Tigger down?
+  expect:
+  - IDK
+  category: trap
+- q: What colour was the honeypot?
+  expect:
+  - IDK
+  category: trap
+- q: What is Uncle Robert's surname?
+  expect:
+  - IDK
+  category: trap

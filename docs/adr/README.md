@@ -68,3 +68,7 @@ whole project.
 | 0055 | 2026-09-28 | [poc5_desiree is the platform foundation](0055-poc5-desiree-is-the-platform-foundation.md) | Accepted. Supersedes 0027 |
 | 0056 | 2026-09-28 | [Every action reports an outcome](0056-every-action-reports-an-outcome.md) | Accepted |
 | 0057 | 2026-09-28 | [Read back what matters; answer with his own words](0057-read-back-and-verbatim-evidence.md) | Proposed |
+| 0058 | 2026-09-28 | [Two kinds of memory: what he told her, and what she observed](0058-two-kinds-of-memory.md) | Accepted |
+| 0059 | 2026-09-28 | [An index and subject files, not one resident facts file](0059-index-and-subject-files.md) | Accepted |
+| 0060 | 2026-09-28 | [Triage at the door: only principals' speech writes facts](0060-triage-at-the-door.md) | Accepted |
+| 0061 | 2026-09-28 | [The bridge: an observation becomes his fact only when he confirms it](0061-the-bridge.md) | Accepted |

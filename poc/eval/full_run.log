@@ -1,0 +1,203 @@
+
+=== house.baseline
+    seed cache partial (fa1f9970113e): building sizes [50, 100, 250, 500, 1000]
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      resuming after 20 distractors
+      size 50: 123 facts, extract prompt up to ~1951 tokens, 0 failed extractions
+      distractors to 100: 50/50  (0 errors so far)
+      size 100: 194 facts, extract prompt up to ~2605 tokens, 0 failed extractions
+      distractors to 250: 50/150  (0 errors so far)
+      distractors to 250: 100/150  (0 errors so far)
+      distractors to 250: 150/150  (0 errors so far)
+      size 250: 363 facts, extract prompt up to ~4406 tokens, 0 failed extractions
+      distractors to 500: 50/250  (0 errors so far)
+      distractors to 500: 100/250  (0 errors so far)
+      distractors to 500: 150/250  (0 errors so far)
+      distractors to 500: 200/250  (0 errors so far)
+      distractors to 500: 250/250  (0 errors so far)
+      size 500: 629 facts, extract prompt up to ~7359 tokens, 0 failed extractions
+      distractors to 1000: 50/500  (0 errors so far)
+      distractors to 1000: 100/500  (0 errors so far)
+      distractors to 1000: 150/500  (0 errors so far)
+      distractors to 1000: 200/500  (0 errors so far)
+      distractors to 1000: 250/500  (0 errors so far)
+      distractors to 1000: 300/500  (0 errors so far)
+      distractors to 1000: 350/500  (0 errors so far)
+      distractors to 1000: 400/500  (0 errors so far)
+      distractors to 1000: 450/500  (0 errors so far)
+      distractors to 1000: 500/500  (0 errors so far)
+      size 1000: 629 facts, extract prompt up to ~7361 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 50 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 10  ERROR 0
+    quiz size 100 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 11  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 10  ERROR 0
+    quiz size 500 with qwen3:14b (repeat 1/1)
+      answerable 68.2%  FAB 12  ERROR 0
+    quiz size 1000 with qwen3:14b (repeat 1/1)
+      answerable 68.2%  FAB 12  ERROR 0
+
+=== house.ctx_4k
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=4096)
+      size 0: 52 facts, extract prompt up to ~1277 tokens, 0 failed extractions
+      distractors to 100: 50/100  (0 errors so far)
+      distractors to 100: 100/100  (0 errors so far)
+      size 100: 202 facts, extract prompt up to ~2619 tokens, 0 failed extractions
+      distractors to 250: 50/150  (0 errors so far)
+      distractors to 250: 100/150  (0 errors so far)
+      distractors to 250: 150/150  (0 errors so far)
+      size 250: 316 facts, extract prompt up to ~3759 tokens, 0 failed extractions
+      distractors to 500: 50/250  (0 errors so far)
+      distractors to 500: 100/250  (0 errors so far)
+      distractors to 500: 150/250  (0 errors so far)
+      distractors to 500: 200/250  (0 errors so far)
+      distractors to 500: 250/250  (0 errors so far)
+      size 500: 319 facts, extract prompt up to ~3784 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 10  ERROR 0
+    quiz size 100 with qwen3:14b (repeat 1/1)
+      answerable 68.2%  FAB 12  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 68.2%  FAB 12  ERROR 0
+    quiz size 500 with qwen3:14b (repeat 1/1)
+      answerable 68.2%  FAB 12  ERROR 0
+
+=== house.big_context
+    seeding house with qwen3:8b (speaker_aware=0, input=clean, num_ctx=16384)
+      size 0: 52 facts, extract prompt up to ~1233 tokens, 0 failed extractions
+      distractors to 250: 50/250  (0 errors so far)
+      distractors to 250: 100/250  (0 errors so far)
+      distractors to 250: 150/250  (0 errors so far)
+      distractors to 250: 200/250  (0 errors so far)
+      distractors to 250: 250/250  (0 errors so far)
+      size 250: 369 facts, extract prompt up to ~4374 tokens, 0 failed extractions
+      distractors to 500: 50/250  (0 errors so far)
+      distractors to 500: 100/250  (0 errors so far)
+      distractors to 500: 150/250  (0 errors so far)
+      distractors to 500: 200/250  (0 errors so far)
+      distractors to 500: 250/250  (0 errors so far)
+      size 500: 654 facts, extract prompt up to ~7453 tokens, 0 failed extractions
+      distractors to 1000: 50/500  (0 errors so far)
+      distractors to 1000: 100/500  (0 errors so far)
+      distractors to 1000: 150/500  (0 errors so far)
+      distractors to 1000: 200/500  (0 errors so far)
+      distractors to 1000: 250/500  (0 errors so far)
+      distractors to 1000: 300/500  (0 errors so far)
+      distractors to 1000: 350/500  (0 errors so far)
+      distractors to 1000: 400/500  (0 errors so far)
+      distractors to 1000: 450/500  (0 errors so far)
+      distractors to 1000: 500/500  (0 errors so far)
+      size 1000: 1178 facts, extract prompt up to ~13205 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 10  ERROR 0
+    quiz size 500 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 11  ERROR 0
+    quiz size 1000 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 11  ERROR 0
+
+=== house.speaker_aware
+    seeding house with qwen3:8b (speaker_aware=1, input=clean, num_ctx=8192)
+      size 0: 46 facts, extract prompt up to ~1309 tokens, 0 failed extractions
+      distractors to 250: 50/250  (0 errors so far)
+      distractors to 250: 100/250  (0 errors so far)
+      distractors to 250: 150/250  (0 errors so far)
+      distractors to 250: 200/250  (0 errors so far)
+      distractors to 250: 250/250  (0 errors so far)
+      size 250: 318 facts, extract prompt up to ~4347 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 72.7%  FAB 4  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 70.5%  FAB 7  ERROR 0
+
+=== house.no_quote
+    seed cache hit (fa1f9970113e) for sizes [0, 250]
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 81.8%  FAB 11  ERROR 0
+    quiz size 250 with qwen3:14b (repeat 1/1)
+      answerable 75.0%  FAB 11  ERROR 0
+
+=== house.noisy
+  noisify: 29 statements through Piper and Whisper
+    seeding house with qwen3:8b (speaker_aware=0, input=noisy, num_ctx=8192)
+      size 0: 51 facts, extract prompt up to ~1253 tokens, 0 failed extractions
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 50.0%  FAB 15  ERROR 0
+
+=== house.variance
+    seed cache hit (fa1f9970113e) for sizes [0]
+    quiz size 0 with qwen3:14b (repeat 1/3)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 0 with qwen3:14b (repeat 2/3)
+      answerable 70.5%  FAB 10  ERROR 0
+    quiz size 0 with qwen3:14b (repeat 3/3)
+      answerable 70.5%  FAB 10  ERROR 0
+
+=== pooh_main.compare_8b
+    seeding pooh_main with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 40 facts, extract prompt up to ~1332 tokens, 0 failed extractions
+    quiz size 0 with qwen3:8b (repeat 1/1)
+      answerable 81.6%  FAB 6  ERROR 0
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 94.7%  FAB 2  ERROR 0
+
+=== pooh_held.compare_8b
+    seeding pooh_held with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 32 facts, extract prompt up to ~1157 tokens, 0 failed extractions
+    quiz size 0 with qwen3:8b (repeat 1/1)
+      answerable 87.5%  FAB 3  ERROR 0
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 84.4%  FAB 0  ERROR 0
+
+=== pooh_fresh.compare_8b
+    seeding pooh_fresh with qwen3:8b (speaker_aware=0, input=clean, num_ctx=8192)
+      size 0: 30 facts, extract prompt up to ~1191 tokens, 0 failed extractions
+    quiz size 0 with qwen3:8b (repeat 1/1)
+      answerable 92.3%  FAB 1  ERROR 0
+    quiz size 0 with qwen3:14b (repeat 1/1)
+      answerable 97.4%  FAB 0  ERROR 0
+
+# POC 2 evaluation summary
+
+1372 answers. PASS = right, MISS = said it didn't know, FAB = said something wrong (fabrication). Answerable excludes traps.
+
+## By job, model and size
+
+| job | answer model | size | facts | answerable | traps | FAB | FAB rate | errors | facts-only FAB | downgraded | answer s p50 / p95 | prompt tok max | over ctx | VRAM peak |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| house.baseline | qwen3:14b | 0 | 52 | 31/44 70.5% | 3/7 | 10 | 19.6% | 0 | 18 | 5 | 0.5 / 0.8 | 1146 | 0 | 11219 |
+| house.baseline | qwen3:14b | 50 | 123 | 32/44 72.7% | 3/7 | 10 | 19.6% | 0 | 22 | 1 | 0.6 / 0.9 | 1858 | 0 | 11242 |
+| house.baseline | qwen3:14b | 100 | 194 | 31/44 70.5% | 3/7 | 11 | 21.6% | 0 | 21 | 2 | 0.6 / 0.9 | 2517 | 0 | 11240 |
+| house.baseline | qwen3:14b | 250 | 363 | 32/44 72.7% | 3/7 | 10 | 19.6% | 0 | 19 | 2 | 0.7 / 1.2 | 4311 | 0 | 11233 |
+| house.baseline | qwen3:14b | 500 | 629 | 30/44 68.2% | 3/7 | 12 | 23.5% | 0 | 24 | 2 | 0.9 / 1.3 | 7241 | 0 | 11223 |
+| house.baseline | qwen3:14b | 1000 | 629 | 30/44 68.2% | 3/7 | 12 | 23.5% | 0 | 24 | 2 | 0.9 / 1.2 | 7241 | 0 | 11217 |
+| house.big_context | qwen3:14b | 0 | 52 | 31/44 70.5% | 3/7 | 10 | 19.6% | 0 | 19 | 5 | 0.5 / 0.8 | 1146 | 0 | 12170 |
+| house.big_context | qwen3:14b | 250 | 369 | 32/44 72.7% | 3/7 | 10 | 19.6% | 0 | 22 | 2 | 0.7 / 1.0 | 4279 | 0 | 12170 |
+| house.big_context | qwen3:14b | 500 | 654 | 32/44 72.7% | 3/7 | 11 | 21.6% | 0 | 23 | 1 | 0.9 / 1.3 | 7367 | 0 | 12170 |
+| house.big_context | qwen3:14b | 1000 | 1178 | 32/44 72.7% | 3/7 | 11 | 21.6% | 0 | 22 | 0 | 1.3 / 2.7 | 13120 | 0 | 12170 |
+| house.ctx_4k | qwen3:14b | 0 | 52 | 32/44 72.7% | 3/7 | 10 | 19.6% | 0 | 20 | 3 | 0.5 / 0.8 | 1190 | 0 | 10238 |
+| house.ctx_4k | qwen3:14b | 100 | 202 | 30/44 68.2% | 3/7 | 12 | 23.5% | 0 | 24 | 1 | 0.6 / 1.0 | 2526 | 0 | 10238 |
+| house.ctx_4k | qwen3:14b | 250 | 316 | 30/44 68.2% | 3/7 | 12 | 23.5% | 0 | 26 | 2 | 0.7 / 1.1 | 3641 | 0 | 10238 |
+| house.ctx_4k | qwen3:14b | 500 | 319 | 30/44 68.2% | 3/7 | 12 | 23.5% | 0 | 25 | 2 | 0.7 / 1.0 | 3664 | 0 | 10238 |
+| house.no_quote | qwen3:14b | 0 | 52 | 36/44 81.8% | 3/7 | 11 | 21.6% | 0 | 18 | 0 | 0.2 / 0.6 | 1061 | 0 | 11028 |
+| house.no_quote | qwen3:14b | 250 | 363 | 33/44 75.0% | 3/7 | 11 | 21.6% | 0 | 19 | 0 | 0.4 / 0.9 | 4226 | 0 | 11028 |
+| house.noisy | qwen3:14b | 0 | 51 | 22/44 50.0% | 3/7 | 15 | 29.4% | 0 | 24 | 7 | 0.5 / 0.8 | 1072 | 0 | 11255 |
+| house.speaker_aware | qwen3:14b | 0 | 46 | 32/44 72.7% | 4/7 | 4 | 7.8% | 0 | 18 | 11 | 0.5 / 0.7 | 1071 | 0 | 11024 |
+| house.speaker_aware | qwen3:14b | 250 | 318 | 31/44 70.5% | 4/7 | 7 | 13.7% | 0 | 23 | 7 | 0.7 / 1.2 | 4143 | 0 | 11028 |
+| house.variance | qwen3:14b | 0 | 52 | 93/132 70.5% (range 70-70%) | 9/21 | 30 | 19.6% | 0 | 57 | 14 | 0.5 / 0.8 | 1146 | 0 | 11255 |
+| pooh_fresh.compare_8b | qwen3:14b | 0 | 30 | 38/39 97.4% | 5/5 | 0 | 0.0% | 0 | 2 | 1 | 0.5 / 0.9 | 1123 | 0 | 11255 |
+| pooh_fresh.compare_8b | qwen3:8b | 0 | 30 | 36/39 92.3% | 5/5 | 1 | 2.3% | 0 | 4 | 2 | 0.3 / 0.6 | 1123 | 0 | 7271 |
+| pooh_held.compare_8b | qwen3:14b | 0 | 32 | 27/32 84.4% | 5/5 | 0 | 0.0% | 0 | 2 | 3 | 0.6 / 0.8 | 1105 | 0 | 11257 |
+| pooh_held.compare_8b | qwen3:8b | 0 | 32 | 28/32 87.5% | 3/5 | 3 | 8.1% | 0 | 3 | 3 | 0.4 / 0.7 | 1105 | 0 | 7269 |
+| pooh_main.compare_8b | qwen3:14b | 0 | 40 | 36/38 94.7% | 5/6 | 2 | 4.5% | 0 | 5 | 1 | 0.7 / 0.9 | 1290 | 0 | 11255 |
+| pooh_main.compare_8b | qwen3:8b | 0 | 40 | 31/38 81.6% | 3/6 | 6 | 13.6% | 0 | 7 | 4 | 0.4 / 0.6 | 1290 | 0 | 7271 |
+
+ERROR = the call failed (timeout or prompt too big for the context). It counts as not answered. Seed-time failures are in seed_stats.json.
+
+
+
+full results: /home/antoniojoboy/Documents/github/fendlera/poc/eval/results/run_20260928_1523_default

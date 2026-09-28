@@ -1,0 +1,40 @@
+# Round 2 (28 Sep 2026). What round 1 left open, each job isolating one thing.
+#
+#   python poc/eval/eval.py plan configs/round2.yaml
+#   python -u poc/eval/eval.py run configs/round2.yaml > poc/eval/round2.log 2>&1
+#
+# Harness v2: conservative token estimate, unparseable extractions recorded as
+# failures, Ollama's own truncation count checked (must be 0), GPU checked.
+# All seeds are rebuilt: round 1's big memories were silently truncated.
+
+extract_model: qwen3:8b
+answer_model: qwen3:14b
+server_context: 4096
+ollama_container: ollama
+distractor_seed: 7
+repeats: 1
+estimate_seconds: {extract: 0.6, answer: 0.7}
+
+variants:
+  baseline:        {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false}
+  big_context:     {num_ctx: 16384, num_predict: 1024, quote_check: true,  speaker_aware: false}
+  speaker_noquote: {num_ctx: 8192,  num_predict: 1024, quote_check: false, speaker_aware: true}
+  noisy_fair:      {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, input: noisy}
+  noisy_vocab:     {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, input: noisy_vocab}
+  seedvar_1:       {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, extract_temperature: 0.4, replica: 1}
+  seedvar_2:       {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, extract_temperature: 0.4, replica: 2}
+  seedvar_3:       {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, extract_temperature: 0.4, replica: 3}
+
+jobs:
+  # 1. scale, with truncation now impossible to miss
+  - {dataset: house, variant: baseline,    sizes: [0, 250, 500, 1000]}
+  - {dataset: house, variant: big_context, sizes: [0, 500, 1000]}
+  # 2. the candidate design: speaker labels on, quote check off
+  - {dataset: house, variant: speaker_noquote, sizes: [0, 250]}
+  # 3. speech: fair scoring, then with the names given to Whisper
+  - {dataset: house, variant: noisy_fair,  sizes: [0]}
+  - {dataset: house, variant: noisy_vocab, sizes: [0]}
+  # 4. how much does the same memory differ when built twice?
+  - {dataset: house, variant: seedvar_1, sizes: [0]}
+  - {dataset: house, variant: seedvar_2, sizes: [0]}
+  - {dataset: house, variant: seedvar_3, sizes: [0]}

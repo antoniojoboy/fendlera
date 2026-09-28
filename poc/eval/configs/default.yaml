@@ -1,0 +1,43 @@
+# The full POC 2 suite. Each job changes ONE thing against baseline, so every
+# row in the summary is attributable. Seeds are cached and resumable.
+#
+#   python poc/eval/eval.py plan configs/default.yaml
+#   python poc/eval/eval.py run  configs/default.yaml > poc/eval/full_run.log 2>&1
+#
+# Every variant states num_ctx explicitly. Ollama's server default is 4096 and
+# it silently cuts oversized prompts from the FRONT, dropping the instructions
+# (found 28 Sep 2026). With num_ctx set, an oversized prompt fails loudly
+# (ContextOverflow) and is recorded as an error instead.
+
+extract_model: qwen3:8b
+answer_model: qwen3:14b
+server_context: 4096
+distractor_seed: 7
+repeats: 1
+estimate_seconds: {extract: 0.5, answer: 0.6}
+
+variants:
+  baseline:      {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false}
+  ctx_4k:        {num_ctx: 4096,  num_predict: 1024, quote_check: true,  speaker_aware: false}
+  big_context:   {num_ctx: 16384, num_predict: 1024, quote_check: true,  speaker_aware: false}
+  speaker_aware: {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: true}
+  no_quote:      {num_ctx: 8192,  num_predict: 1024, quote_check: false, speaker_aware: false}
+  noisy:         {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, input: noisy}
+  variance:      {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false, temperature: 0.4}
+  compare_8b:    {num_ctx: 8192,  num_predict: 1024, quote_check: true,  speaker_aware: false,
+                  answer_models: [qwen3:8b, qwen3:14b]}
+
+jobs:
+  # 1. the scale trend - where does whole-facts memory break, and does a bigger context move it?
+  - {dataset: house, variant: baseline,    sizes: [0, 50, 100, 250, 500, 1000]}
+  - {dataset: house, variant: ctx_4k,      sizes: [0, 100, 250, 500]}
+  - {dataset: house, variant: big_context, sizes: [0, 250, 500, 1000]}
+  # 2. one switch at a time
+  - {dataset: house, variant: speaker_aware, sizes: [0, 250]}
+  - {dataset: house, variant: no_quote,      sizes: [0, 250]}
+  - {dataset: house, variant: noisy,         sizes: [0]}
+  - {dataset: house, variant: variance,      sizes: [0], repeats: 3}
+  # 3. the owner-written sets
+  - {dataset: pooh_main,  variant: compare_8b, sizes: [0]}
+  - {dataset: pooh_held,  variant: compare_8b, sizes: [0]}
+  - {dataset: pooh_fresh, variant: compare_8b, sizes: [0]}
