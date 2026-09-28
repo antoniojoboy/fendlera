@@ -21,3 +21,16 @@ evidence/
 .env
 *.tar.gz
 poc/eval/results/
+__pycache__/
+*.pyc
+*.bak
+*bak
+/facts.md
+/facts_log.md
+poc/facts.md
+poc/facts_log.md
+poc/memory.md
+poc/quiz_report*.jsonl
+poc/results/
+poc/eval/*.log
+poc/eval/results/
